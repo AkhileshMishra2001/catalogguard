@@ -1,0 +1,50 @@
+{
+  "questions": [
+    "How frequent are matches after grouped splitting?",
+    "Does image evidence improve validation AP over text-only models?",
+    "What fraction can be suggested at the validation precision target?"
+  ],
+  "data_audit": {
+    "original_pairs": 8428,
+    "unique_nonself_pairs": 8423,
+    "unique_listings": 1453,
+    "referenced_images_verified": 1453,
+    "conflicting_pair_ids_excluded": 1,
+    "retained_pairs": 4530,
+    "original_split_listing_overlap": {
+      "0_1": 867,
+      "0_2": 309,
+      "1_2": 268
+    },
+    "cross_partition_pairs_excluded": 3855,
+    "negative_pairs_inside_identity_groups_excluded": 37,
+    "identity_groups": 468,
+    "largest_group_listings": 21,
+    "split_counts": {
+      "test": {
+        "pairs": 644,
+        "matches": 318,
+        "match_rate": 0.4937888198757764
+      },
+      "train": {
+        "pairs": 3266,
+        "matches": 916,
+        "match_rate": 0.28046540110226575
+      },
+      "validation": {
+        "pairs": 620,
+        "matches": 321,
+        "match_rate": 0.5177419354838709
+      }
+    },
+    "seed": 42,
+    "products_sha256": "182b7b5b1de07dc4c02b8bebc04667ed7ed3695b9b533b7f7322b87b0f4b5002",
+    "pairs_sha256": "348cc5e208812fd0f0b60d0ecb0856ff50a2faf37d857f720c43518d03d981a1",
+    "protocol": "Custom positive-component/pixel/title-group split; cross-partition pairs and inconsistent negatives excluded. Not official benchmark scores."
+  },
+  "notes": [
+    "Missing or corrupt images fail preparation.",
+    "No seller IDs, sales outcomes or verified variant attributes are invented.",
+    "Benchmark prevalence is not live marketplace prevalence."
+  ]
+}

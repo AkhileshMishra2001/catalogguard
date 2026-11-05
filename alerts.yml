@@ -1,0 +1,17 @@
+groups:
+  - name: catalogguard
+    rules:
+      - alert: CatalogGuardUnavailable
+        expr: up{job="catalogguard"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: CatalogGuard metrics endpoint unavailable
+      - alert: CatalogGuardServerErrors
+        expr: sum(rate(catalogguard_http_requests_total{status=~"5.."}[5m])) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: CatalogGuard is returning server errors

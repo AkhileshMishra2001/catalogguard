@@ -1,0 +1,13 @@
+.venv
+.git
+.env
+.env.*
+data
+artifacts
+reports
+mlruns
+mlartifacts
+mlflow.db
+__pycache__
+.pytest_cache
+docs/my_results

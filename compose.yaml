@@ -1,0 +1,54 @@
+services:
+  mongo:
+    image: mongo:7.0.16
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ADMIN_PASSWORD:?Run setup_env.py}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Run setup_env.py}
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/init.js:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --username admin --password \"$$MONGO_INITDB_ROOT_PASSWORD\" --authenticationDatabase admin --eval 'db.adminCommand({ping:1})' >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+  app:
+    build: .
+    profiles: [serve]
+    env_file: .env
+    environment:
+      MONGO_HOST: mongo
+      CATALOGGUARD_HOME: /app
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./data:/app/data:ro
+      - ./artifacts:/app/artifacts:ro
+      - ./reports:/app/reports:ro
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=3)"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    profiles: [serve]
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    depends_on: [app]
+    restart: unless-stopped
+volumes:
+  mongo_data:
+  prometheus_data:

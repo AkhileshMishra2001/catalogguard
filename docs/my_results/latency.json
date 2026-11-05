@@ -1,0 +1,8 @@
+{
+  "model": "fusion_lgbm",
+  "runs": 50,
+  "p50_ms": 3.087199999981749,
+  "p95_ms": 3.7813650000316557,
+  "platform": "Windows-10-10.0.26200-SP0",
+  "scope": "Warm feature assembly and classifier only; cached embeddings. Excludes encoding, database, HTTP and cold start."
+}

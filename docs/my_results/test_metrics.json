@@ -1,0 +1,73 @@
+{
+  "winner": "fusion_lgbm",
+  "fingerprint": {
+    "products": "182b7b5b1de07dc4c02b8bebc04667ed7ed3695b9b533b7f7322b87b0f4b5002",
+    "pairs": "348cc5e208812fd0f0b60d0ecb0856ff50a2faf37d857f720c43518d03d981a1",
+    "text_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "text_revision": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+    "image_model": "openai/clip-vit-base-patch32",
+    "image_revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268"
+  },
+  "model_sha256": "2367ee172c2764f5d5dfa455f177f20edb4b0520d53c8f4b6bd404c3ed265681",
+  "test": {
+    "rows": 644,
+    "positive_rate": 0.4937888198757764,
+    "average_precision": 0.9516515006895423,
+    "roc_auc": 0.9381487054828876,
+    "precision": 0.8844884488448845,
+    "recall": 0.8427672955974843,
+    "f1": 0.8631239935587761,
+    "brier": 0.09866459334899634,
+    "threshold": 0.24
+  },
+  "lexical_baseline": {
+    "rows": 644,
+    "positive_rate": 0.4937888198757764,
+    "average_precision": 0.8193820710930895,
+    "roc_auc": 0.8521819655052669,
+    "precision": 0.736,
+    "recall": 0.8679245283018868,
+    "f1": 0.7965367965367965,
+    "brier": 0.19842547592168241,
+    "threshold": 0.15000000000000002
+  },
+  "paired_component_bootstrap_ap_delta": {
+    "ci95": [
+      0.059767253186079006,
+      0.2600917830620363
+    ],
+    "independent_pair_graph_components": 19,
+    "repetitions": 300
+  },
+  "scope": "Offline sampled labelled pairs, custom grouped split. No full-catalog accuracy or business savings claim.",
+  "suggestions": {
+    "threshold": 0.43,
+    "pairs": 255,
+    "coverage": 0.39596273291925466,
+    "precision": 0.9764705882352941
+  },
+  "stress_tests": {
+    "zero_image_features": {
+      "rows": 644,
+      "positive_rate": 0.4937888198757764,
+      "average_precision": 0.8326105883519287,
+      "roc_auc": 0.8367529034996334,
+      "precision": 0.6893732970027248,
+      "recall": 0.7955974842767296,
+      "f1": 0.7386861313868613,
+      "brier": 0.1831351010275318,
+      "threshold": 0.24
+    },
+    "zero_text_features": {
+      "rows": 644,
+      "positive_rate": 0.4937888198757764,
+      "average_precision": 0.8384992306537281,
+      "roc_auc": 0.8028321179148821,
+      "precision": 1.0,
+      "recall": 0.5031446540880503,
+      "f1": 0.6694560669456067,
+      "brier": 0.22873088346534376,
+      "threshold": 0.24
+    }
+  }
+}

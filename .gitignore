@@ -1,0 +1,24 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Downloaded data and generated artifacts
+data/
+artifacts/
+reports/
+
+# Local experiment tracking
+mlruns/
+mlartifacts/
+mlflow.db*
+
+# Logs
+*.log

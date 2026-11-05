@@ -1,0 +1,9 @@
+{
+  "k": 10,
+  "eligible_queries": 233,
+  "test_catalog_listings": 306,
+  "mean_known_positive_recall_at_k": 0.7835070508890251,
+  "p50_candidate_ms": 0.09629999999560823,
+  "p95_candidate_ms": 0.1800400000774968,
+  "scope": "Known labelled positive neighbours only; incomplete relevance labels, not exhaustive catalog recall. Frozen 50/50 text-image retrieval; embeddings precomputed."
+}

@@ -1,0 +1,4 @@
+split,listings,mean_title_characters,unique_images
+test,306,65.45424836601308,306
+train,854,66.81733021077284,854
+validation,293,66.3037542662116,293

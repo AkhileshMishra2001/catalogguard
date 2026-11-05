@@ -1,0 +1,8 @@
+{
+  "model": "fusion_lgbm",
+  "runs": 50,
+  "p50_ms": 1.009493999958977,
+  "p95_ms": 2.0199339499811217,
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "scope": "Warm feature assembly and classifier only; cached embeddings. Excludes encoding, database, HTTP and cold start."
+}

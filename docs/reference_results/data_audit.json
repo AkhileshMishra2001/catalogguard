@@ -1,0 +1,38 @@
+{
+  "original_pairs": 8428,
+  "unique_nonself_pairs": 8423,
+  "unique_listings": 1453,
+  "referenced_images_verified": 1453,
+  "conflicting_pair_ids_excluded": 1,
+  "retained_pairs": 4530,
+  "original_split_listing_overlap": {
+    "0_1": 867,
+    "0_2": 309,
+    "1_2": 268
+  },
+  "cross_partition_pairs_excluded": 3855,
+  "negative_pairs_inside_identity_groups_excluded": 37,
+  "identity_groups": 468,
+  "largest_group_listings": 21,
+  "split_counts": {
+    "test": {
+      "pairs": 644,
+      "matches": 318,
+      "match_rate": 0.4937888198757764
+    },
+    "train": {
+      "pairs": 3266,
+      "matches": 916,
+      "match_rate": 0.28046540110226575
+    },
+    "validation": {
+      "pairs": 620,
+      "matches": 321,
+      "match_rate": 0.5177419354838709
+    }
+  },
+  "seed": 42,
+  "products_sha256": "928317ec42f8f5f8d6d408c80dd064a9fc64bf4c39e70b2f8b5dd27152c6fbc7",
+  "pairs_sha256": "04a1e83b0147ae828e6ac2783fb3caccce40645d4083a9c15f59668d51aaa27c",
+  "protocol": "Custom positive-component/pixel/title-group split; cross-partition pairs and inconsistent negatives excluded. Not official benchmark scores."
+}

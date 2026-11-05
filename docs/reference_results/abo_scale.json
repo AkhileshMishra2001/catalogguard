@@ -1,0 +1,53 @@
+{
+  "source_url": "https://amazon-berkeley-objects.s3.amazonaws.com/archives/abo-listings.tar",
+  "archive_sha256": "b7f7ceacb328fa5ab6e143b88e1f948443a877cfc95b67ff09c8ebabd50644e3",
+  "rows_read_this_run": 147702,
+  "unique_documents_in_collection": 147702,
+  "document_key": "SHA256(domain_name, item_id); preserves market-specific listings",
+  "ingestion_seconds_excluding_download": 40.05936395900005,
+  "rows_per_second": 3687.078011302676,
+  "top_types_aggregation": [
+    {
+      "_id": "CELLULAR_PHONE_CASE",
+      "count": 64853
+    },
+    {
+      "_id": "SHOES",
+      "count": 12965
+    },
+    {
+      "_id": "GROCERY",
+      "count": 6546
+    },
+    {
+      "_id": "HOME",
+      "count": 5264
+    },
+    {
+      "_id": "HOME_BED_AND_BATH",
+      "count": 3082
+    },
+    {
+      "_id": "HOME_FURNITURE_AND_DECOR",
+      "count": 2255
+    },
+    {
+      "_id": "CHAIR",
+      "count": 2100
+    },
+    {
+      "_id": "BOOT",
+      "count": 2009
+    },
+    {
+      "_id": "SANDAL",
+      "count": 1845
+    },
+    {
+      "_id": "FINERING",
+      "count": 1540
+    }
+  ],
+  "limit": 0,
+  "scope": "Metadata ingestion and MongoDB aggregation only. No ABO images embedded; no ABO matching accuracy measured."
+}
