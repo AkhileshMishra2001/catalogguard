@@ -15,12 +15,7 @@ Compare product descriptions and photographs to identify likely matches, avoid i
 - Non-root Docker application, persistent MongoDB volume and GitHub Actions tests.
 
 ### Important boundaries
-WDC Shoes is the labelled matching benchmark. ABO is a SEPARATE metadata ingestion/aggregation scale test. Do not combine their counts into a matching training-set claim. The model scores existing catalog IDs using cached embeddings; it does not accept arbitrary uploaded images or automatically merge products. Labels reflect the benchmark's notion of product identity, not a certified size/colour variant match. No financial savings or sales lift is measured.
-
-## Windows / VS Code setup
-Use Python **3.11, 64-bit**, VS Code, and Docker Desktop running Linux containers (WSL2). Keep about 10–12 GB disk space free for packages, images, model caches and containers. 16 GB RAM is comfortable. CPU is the default; a GPU is not required.
-
-Extract the ZIP to `C:\Users\Hp\Desktop\CatalogGuard`. Open the folder containing `README.md`, `requirements.txt` and `catalogguard` in VS Code. Open Terminal → New Terminal → PowerShell. Run each block from this folder. You do not need to activate the virtual environment.
+WDC Shoes is the labelled matching benchmark. ABO is a SEPARATE metadata ingestion/aggregation scale test.
 
 ### 1. Install dependencies
 ```powershell
@@ -34,7 +29,6 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe scripts/setup_env.py
 .\.venv\Scripts\python.exe -m pytest -q
 ```
-In VS Code select `.venv\Scripts\python.exe` as interpreter. The setup script creates local credentials in `.env` and will not overwrite an existing file. Never commit or share it.
 
 ### 2. Start MongoDB
 Start Docker Desktop first, then:
@@ -50,9 +44,10 @@ This creates an authenticated local database and a dedicated readWrite applicati
 .\.venv\Scripts\python.exe -m catalogguard.cli analyze
 .\.venv\Scripts\python.exe -m catalogguard.cli sync
 ```
-About 581 MB is downloaded. Checksums are verified. Every referenced image is decoded. The primitive-only pickle is converted using a restricted unpickler that forbids executable classes.
+About 581 MB is downloaded. Checksums are verified. Every referenced image is decoded.
 
-Inspect `reports/data_audit.json` and `reports/catalog_profile.csv`. The optional `analysis_walkthrough.ipynb` contains five short analysis questions; install `ipykernel` into your virtual environment if VS Code requests a notebook kernel. Source: 8,428 pairs and 1,453 images. After deduplication, contradiction exclusions and grouped partitioning: **4,530 pairs: 3,266 train, 620 validation, 644 test**. Original splits have listing overlap, so this release uses a stricter custom split. One contradictory pair ID and 37 negative pairs inside identity groups are excluded. Cross-partition pairs are excluded too; exclusion categories can overlap.
+Inspect `reports/data_audit.json` and `reports/catalog_profile.csv`. 
+The optional `analysis_walkthrough.ipynb` contains five short analysis questions; install `ipykernel` into your virtual environment if VS Code requests a notebook kernel. Source: 8,428 pairs and 1,453 images. After deduplication, contradiction exclusions and grouped partitioning: **4,530 pairs: 3,266 train, 620 validation, 644 test**. Original splits have listing overlap, so this release uses a stricter custom split. One contradictory pair ID and 37 negative pairs inside identity groups are excluded. Cross-partition pairs are excluded too; exclusion categories can overlap.
 
 ### 4. Generate text and image embeddings
 ```powershell
@@ -83,8 +78,6 @@ Outputs:
 .\.venv\Scripts\python.exe -m catalogguard.cli abo-scale
 ```
 Downloads the ~87 MB ABO metadata archive and ingests all records into `abo_listings`. Market/domain and item ID jointly identify a record. Indexes and an aggregation summarise product types. `reports/abo_scale.json` records actual rows, unique documents and throughput. No AWS account or ABO image download is required.
-
-**Only claim counts from your successful run.** This tests metadata processing at scale, not matching accuracy on 147,702 products.
 
 ### 7. Start the review application
 ```powershell
@@ -118,55 +111,7 @@ Click Inspect signals on some pairs. Query `catalogguard_pairs_scored_total` in 
 
 Stop with `docker compose --profile serve stop`; data remains in volumes. Do NOT use `down -v` unless you intend to delete database and review data. See `docs/DEPLOYMENT.md` for acceptance criteria and production boundaries.
 
-### 10. Export evidence and publish clean source
-```powershell
-.\.venv\Scripts\python.exe -m catalogguard.cli export-evidence
-git init
-git check-ignore -v .venv/ .env data/ artifacts/
-git add .
-git --no-pager diff --cached --name-only
-git commit -m "Build CatalogGuard multimodal matching and review service"
-git branch -M main
-```
-Create an empty GitHub repository, then use YOUR real repository URL:
-```powershell
-git remote add origin https://github.com/YOUR_USERNAME/CatalogGuard.git
-git push -u origin main
-```
-If origin exists, use `git remote set-url origin ...`. Sign in using Git Credential Manager/browser, not your account password. The ignore rules exclude credentials, environments, data/images, artifacts, runtime reports and MLflow databases. `docs/my_results` intentionally includes only exported aggregate evidence.
-
-### Alternative: run the pipeline script
-After installing requirements, you may run the equivalent steps 2–6 with:
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\run_all.ps1
-```
-This applies only to that PowerShell process and does not change machine policy. The script stops on failures. It does not launch the UI. Choose either individual steps or this script to avoid duplicate training runs.
-
-## Troubleshooting
-- Docker unavailable: start Docker Desktop, check Linux containers/WSL2 and `docker compose logs mongo`.
-- Authentication failed after changing .env: restore original credentials; the database volume retains existing users.
-- Port occupied: stop the other service or change BOTH port mapping and connection settings.
-- Interrupted download: rerun; checksum validation prevents silent partial-file use.
-- Stale-artifact error: stop app, rerun prepare → embed → train → evaluate → sync.
-- Missing/corrupt images: stop and inspect the source; do not substitute unrelated images.
-- Keep the supplied pinned environment; SQLAlchemy is pinned for MLflow compatibility.
-
-## Documentation and resume
-`docs/INTERVIEW_GUIDE.md` explains methodology and trade-offs. `docs/DATA_SOURCES.md` records attribution and pins. `docs/VERIFICATION.md` records actual verification and remaining local acceptance checks. `docs/reference_results` contains build-verification aggregates; your exports go to `docs/my_results`.
-
-After you reproduce the run and complete Docker acceptance, use:
-
-**CatalogGuard | Multimodal Product Matching & Catalog Quality**
-*Python, MongoDB, PyTorch, Sentence Transformers, CLIP, LightGBM, MLflow, FastAPI, Docker, Prometheus*
-
-- Built a multimodal product-matching pipeline combining multilingual text and image embeddings; benchmarked five lexical, semantic, visual and fusion configurations using MLflow.
-- Audited 8,428 labelled pairs and 1,453 images; resolved label conflicts and constructed grouped train/validation/test partitions retaining 4,530 pairs.
-- Achieved **[actual test AP] average precision** versus **[actual baseline AP]**, with **[actual suggestion precision] precision at [actual coverage] coverage** on 644 held-out pairs.
-- Containerised a FastAPI review service with authenticated access, MongoDB persistence and Prometheus metrics; processed **[actual ABO rows] metadata records** in a separate ingestion test.
-
-Use three concise bullets if space is limited. Do not call this company production experience or claim financial impact without measured evidence.
-
-## Results from my Windows run
+## Results
 
 Compared five model configurations and selected multimodal LightGBM
 using validation average precision.
@@ -182,12 +127,3 @@ using validation average precision.
 | Suggested-match precision | 97.65% |
 | Suggested-match coverage | 39.60% |
 | Held-out test pairs | 644 |
-
-In a separate MongoDB ingestion test, processed 147,702 product
-metadata records in 90.5 seconds, excluding download time.
-
-Matching results use the WDC Shoes benchmark with a custom grouped
-split. The larger metadata ingestion test uses Amazon Berkeley Objects;
-those records were not used to measure matching accuracy.
-
-My aggregate evaluation reports are available in docs/my_results.
